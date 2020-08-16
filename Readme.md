@@ -4,7 +4,7 @@ Written by Nawshad Farruque
 
 @param2: threshold
 
-usage: python info.py <filename> <threshold>
+usage: python info.py @param1 @param2
 
 -- You can use directly use the function inf_vocab_builder(tweets, labels, emotions, threshold) to get the informative vocubulary. In this case you need to provide, numpy 
 array for tweets only and numpy array for labels only.
