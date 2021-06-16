@@ -58,12 +58,12 @@ def lexical_classifier(tweet, lexicon, emotions):
 # utilty function
 def get_smaller_dataset(filename, range):
 	tweets_and_labels = []
+	
 	with open (filename, 'r') as file:
 		count = 0
 		covered_ids = []
 		for line in file:
 			line_content = line.strip("\n").split("\t\t")
-			
 			if count <= range: 
 				if line_content[1] not in covered_ids:
 					tweets_and_labels.append(line_content)
@@ -71,7 +71,7 @@ def get_smaller_dataset(filename, range):
 			else:
 				covered_ids.append(line_content[1])
 				count = 0
-
+				
 	with open('CBET-single-small.txt','w') as file:
 		for item in tweets_and_labels:
 			file.write(item[0]+"\t\t"+item[1]+"\n")
@@ -89,7 +89,6 @@ def inf_vocab_builder(tweets, labels, emotions, threshold):
 		print("Done with TEST:", test_index)
 		X_train, X_test = X[train_index], X[test_index]
 		y_train, y_test = y[train_index], y[test_index]
-		
 		lexicon = lexicon_builder(X_train, y_train, len(emotions))
 		pred_label = lexical_classifier(X_test[0], lexicon, emotions)
 		#print(X_test[0]+" Gold label: "+str(y_test[0])+" Predicted label: "+str(pred_label))
@@ -106,16 +105,14 @@ def inf_vocab_builder(tweets, labels, emotions, threshold):
 					info_vocab[word][1] = 1
 					if pred_label == int(y_test[0]):
 						info_vocab[word][0] = 1
-
 			else:
 				if word in lexicon:
 					info_vocab[word][1] += 1
 					if pred_label == int(y_test[0]):
 						info_vocab[word][0] += 1
 		total += 1
-	
+		
 	vocab_list = []
-	
 	for key, value in info_vocab.items():
 		if value[1] > 0:
 			if value[0]/value[1] >= threshold:
@@ -157,7 +154,6 @@ def inf_vocab_builder_ameneh(tweets, labels, emotions, threshold):
 		print("Done with TEST:", test_index)
 		X_train, X_test = X[train_index], X[test_index]
 		y_train, y_test = y[train_index], y[test_index]
-		
 		lexicon = lexicon_builder(X_train, y_train, len(emotions))
 		pred_label = lexical_classifier_word(X_test[0], lexicon, emotions)
 		#print(X_test[0]+" Gold label: "+str(y_test[0])+" Predicted label: "+str(pred_label))
